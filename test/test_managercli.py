@@ -608,6 +608,7 @@ class TestListCommand(TestCliProxyCommand):
         def create_pool_list(*args, **kwargs):
             return [{'productName': 'dummy-name',
                      'productId': 'dummy-id',
+                     'roles': 'awsome server',
                      'providedProducts': [],
                      'id': '888888888888',
                      'management_enabled': True,
@@ -617,6 +618,8 @@ class TestListCommand(TestCliProxyCommand):
                      'quantity': '4',
                      'service_level': '',
                      'service_type': '',
+                     'usage': 'Testing',
+                     'addons': 'ADDON1',
                      'contractNumber': '5',
                      'multi-entitlement': 'false',
                      'startDate': '',
@@ -634,6 +637,7 @@ class TestListCommand(TestCliProxyCommand):
         def create_pool_list(*args, **kwargs):
             return [{'productName': 'dummy-name',
                      'productId': 'dummy-id',
+                     'roles': 'awsome server',
                      'providedProducts': [],
                      'id': '888888888888',
                      'management_enabled': True,
@@ -643,6 +647,8 @@ class TestListCommand(TestCliProxyCommand):
                      'quantity': '4',
                      'service_level': '',
                      'service_type': '',
+                     'usage': 'Production',
+                     'addons': '',
                      'contractNumber': '5',
                      'multi-entitlement': 'false',
                      'startDate': '',

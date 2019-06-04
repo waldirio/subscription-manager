@@ -137,6 +137,7 @@ class EntitlementService(object):
         ConsumedStatus = collections.namedtuple('ConsumedStatus', [
             'subscription_name',
             'provides',
+            'roles',
             'sku',
             'contract',
             'account',
@@ -147,6 +148,8 @@ class EntitlementService(object):
             'quantity_used',
             'service_level',
             'service_type',
+            'usage',
+            'addons',
             'status_details',
             'subscription_type',
             'starts',
@@ -175,12 +178,15 @@ class EntitlementService(object):
             # so we default the values and populate them if
             # they exist. BZ974587
             name = ""
+            roles = ""
             sku = ""
             contract = ""
             account = ""
             quantity_used = ""
             service_level = ""
             service_type = ""
+            usage = ""
+            addons = ""
             system_type = ""
             provides_management = "No"
 
@@ -189,6 +195,9 @@ class EntitlementService(object):
             if order:
                 service_level = order.service_level or ""
                 service_type = order.service_type or ""
+                usage = order.usage or ""
+                roles = order.roles or ""
+                addons = order.addons or ""
                 name = order.name
                 sku = order.sku
                 contract = order.contract or ""
@@ -234,6 +243,7 @@ class EntitlementService(object):
             consumed_statuses.append(ConsumedStatus(
                 name,
                 product_names,
+                roles,
                 sku,
                 contract,
                 account,
@@ -244,6 +254,8 @@ class EntitlementService(object):
                 quantity_used,
                 service_level,
                 service_type,
+                usage,
+                addons,
                 reasons,
                 pool_type,
                 managerlib.format_date(cert.valid_range.begin()),

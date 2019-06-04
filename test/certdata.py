@@ -334,11 +334,14 @@ Product:
 Order:
 \tName: Awesome OS Server Bundled
 \tNumber: ff80808139a0a7160139a0a8501d0295
+\tRoles: 
 \tSKU: awesomeos-server
 \tContract: 359
 \tAccount: 12331131231
 \tService Level: Premium
 \tService Type: Level 3
+\tUsage: 
+\tAdd-ons: 
 \tQuantity: 10
 \tQuantity Used: 1
 \tSocket Limit: 2
@@ -455,11 +458,14 @@ Product:
 Order:
 \tName: Awesome OS for x86_64
 \tNumber: ff80808139d94b400139d94c018c0164
+\tRoles: 
 \tSKU: awesomeos-x86_64
 \tContract: 67
 \tAccount: 12331131231
 \tService Level:%(space)s
 \tService Type:%(space)s
+\tUsage: 
+\tAdd-ons: 
 \tQuantity: 10
 \tQuantity Used: 2
 \tSocket Limit: 1
@@ -560,11 +566,14 @@ Product:
 Order:
 \tName: Multi-Attribute Stackable (2 GB)
 \tNumber: order-8675309
+\tRoles: 
 \tSKU: ram2-multiattr
 \tContract: 0
 \tAccount: 12331131231
 \tService Level: Premium
 \tService Type: Level 3
+\tUsage: 
+\tAdd-ons: 
 \tQuantity: 5
 \tQuantity Used: 5
 \tSocket Limit:%(space)s
