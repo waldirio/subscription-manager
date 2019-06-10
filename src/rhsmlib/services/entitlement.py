@@ -134,10 +134,9 @@ class EntitlementService(object):
 
     def get_consumed_product_pools(self, service_level=None, matches=None):
         # Use a named tuple so that the result can be unpacked into other functions
-        ConsumedStatus = collections.namedtuple('ConsumedStatus', [
+        OldConsumedStatus = collections.namedtuple('OldConsumedStatus', [
             'subscription_name',
             'provides',
-            'roles',
             'sku',
             'contract',
             'account',
@@ -146,8 +145,29 @@ class EntitlementService(object):
             'provides_management',
             'active',
             'quantity_used',
-            'service_level',
             'service_type',
+            'service_level',
+            'status_details',
+            'subscription_type',
+            'starts',
+            'ends',
+            'system_type',
+        ])
+        # Use a named tuple so that the result can be unpacked into other functions
+        ConsumedStatus = collections.namedtuple('ConsumedStatus', [
+            'subscription_name',
+            'provides',
+            'sku',
+            'contract',
+            'account',
+            'serial',
+            'pool_id',
+            'provides_management',
+            'active',
+            'quantity_used',
+            'service_type',
+            'roles',
+            'service_level',
             'usage',
             'addons',
             'status_details',
@@ -178,13 +198,13 @@ class EntitlementService(object):
             # so we default the values and populate them if
             # they exist. BZ974587
             name = ""
-            roles = ""
             sku = ""
             contract = ""
             account = ""
             quantity_used = ""
-            service_level = ""
             service_type = ""
+            roles = ""
+            service_level = ""
             usage = ""
             addons = ""
             system_type = ""
@@ -193,11 +213,11 @@ class EntitlementService(object):
             order = cert.order
 
             if order:
-                service_level = order.service_level or ""
                 service_type = order.service_type or ""
-                usage = order.usage or ""
-                roles = order.roles or ""
-                addons = order.addons or ""
+                roles = order.roles
+                service_level = order.service_level or ""
+                usage = order.usage
+                addons = order.addons
                 name = order.name
                 sku = order.sku
                 contract = order.contract or ""
@@ -240,27 +260,47 @@ class EntitlementService(object):
             else:
                 reasons.append(_("Subscription management service doesn't support Status Details."))
 
-            consumed_statuses.append(ConsumedStatus(
-                name,
-                product_names,
-                roles,
-                sku,
-                contract,
-                account,
-                cert.serial,
-                pool_id,
-                provides_management,
-                cert.is_valid(),
-                quantity_used,
-                service_level,
-                service_type,
-                usage,
-                addons,
-                reasons,
-                pool_type,
-                managerlib.format_date(cert.valid_range.begin()),
-                managerlib.format_date(cert.valid_range.end()),
-                system_type))
+            if roles is None and usage is None and addons is None:
+                consumed_statuses.append(OldConsumedStatus(
+                    name,
+                    product_names,
+                    sku,
+                    contract,
+                    account,
+                    cert.serial,
+                    pool_id,
+                    provides_management,
+                    cert.is_valid(),
+                    quantity_used,
+                    service_type,
+                    service_level,
+                    reasons,
+                    pool_type,
+                    managerlib.format_date(cert.valid_range.begin()),
+                    managerlib.format_date(cert.valid_range.end()),
+                    system_type))
+            else:
+                consumed_statuses.append(ConsumedStatus(
+                    name,
+                    product_names,
+                    sku,
+                    contract,
+                    account,
+                    cert.serial,
+                    pool_id,
+                    provides_management,
+                    cert.is_valid(),
+                    quantity_used,
+                    service_type,
+                    roles,
+                    service_level,
+                    usage,
+                    addons,
+                    reasons,
+                    pool_type,
+                    managerlib.format_date(cert.valid_range.begin()),
+                    managerlib.format_date(cert.valid_range.end()),
+                    system_type))
         return consumed_statuses
 
     def get_available_pools(self, show_all=None, on_date=None, no_overlap=None,
